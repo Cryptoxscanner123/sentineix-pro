@@ -8,37 +8,30 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --primary: #1a73e8; --bg: #0b101b; --card: #161e2d; --gold: #f59e0b; --up: #10b981; --down: #ef4444; }
-        body { background: var(--bg); color: #f1f5f9; font-family: 'Roboto', 'Tajawal', sans-serif; margin: 0; padding-top: 110px; overflow-x: hidden; }
+        body { background: var(--bg); color: #f1f5f9; font-family: 'Roboto', 'Tajawal', sans-serif; margin: 0; padding-top: 110px; }
         
-        /* شريط التنبيهات العلوي */
         .breaking-news { background: #991b1b; color: white; height: 35px; line-height: 35px; position: fixed; top: 0; width: 100%; z-index: 10002; font-size: 13px; font-weight: bold; text-align: center; }
         .price-ticker { background: #000; color: #fff; height: 45px; line-height: 45px; overflow: hidden; position: fixed; top: 35px; width: 100%; z-index: 10001; border-bottom: 1px solid #333; }
         .ticker-track { display: inline-block; white-space: nowrap; animation: scrollTicker 60s linear infinite; }
         
-        /* عداد فحص العملات */
-        .scanner-status { background: rgba(26, 115, 232, 0.2); padding: 10px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
-        .pulse { width: 10px; height: 10px; background: var(--up); border-radius: 50%; display: inline-block; animation: pulse 1s infinite; }
+        /* شريط حالة الفحص العميق */
+        .deep-scanner { background: #111827; border: 1px solid #1e293b; border-radius: 12px; padding: 15px; margin-bottom: 20px; }
+        .progress-bar { height: 6px; background: #334155; border-radius: 3px; overflow: hidden; margin-top: 10px; }
+        .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: 0.3s; }
 
         .lang-switch { position: fixed; bottom: 30px; left: 30px; z-index: 10005; background: var(--gold); color: #000; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 900; cursor: pointer; }
-
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 1fr 350px; gap: 25px; }
         @media (max-width: 1100px) { .container { grid-template-columns: 1fr; } }
 
         .card { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid #2d3748; margin-bottom: 25px; }
         .table-container { border: 1px solid #2d3748; border-radius: 12px; background: #0f172a; overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.9rem; }
+        table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.85rem; }
         th { background: #1e293b; padding: 15px; color: var(--gold); }
-        td { padding: 15px; border-bottom: 1px solid #2d3748; font-weight: bold; }
+        td { padding: 12px; border-bottom: 1px solid #2d3748; font-weight: bold; }
 
-        /* نافذة المحفظة */
-        #walletModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 999999; backdrop-filter: blur(10px); }
-        .modal-content { background: #111827; width: 90%; max-width: 450px; border-radius: 25px; padding: 25px; border: 1px solid var(--gold); }
-        
-        .wallet-addr { color: #60a5fa; cursor: pointer; background: #1a202c; padding: 5px 10px; border-radius: 8px; font-family: monospace; }
         .aff-link { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; text-decoration: none; border-radius: 12px; margin-bottom: 10px; font-weight: 900; color: white; }
         .bn { background: #F3BA2F; color: #000; } .kc { background: #24ae8f; } .mx { background: #00a7e1; }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        
         @keyframes scrollTicker { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
     </style>
 </head>
@@ -46,13 +39,13 @@
 
 <div class="breaking-news">
     <div class="ticker-track">
-        <span style="margin:0 50px;">🔴 LIVE: SentinelX Engine is currently scanning 5240 Digital Assets | محرك SentinelX يفحص الآن 5240 أصل رقمي</span>
+        <span style="margin:0 50px;">🌍 GLOBAL HUB: SentinelX Engine is deep-scanning 5240 Assets | رصد وتحليل 5240 عملة رقمية</span>
     </div>
 </div>
 
 <div class="price-ticker">
     <div class="ticker-track"> 
-        ₿ BTC: $64,210 • Ξ ETH: $3,450 • ◈ SOL: $145 • 🪙 PEPE: $0.000009 • 📈 LINK: $18.20 • 💎 SUI: $1.95 • 🟢 FET: $2.45
+        ₿ BTC: $64,210 • Ξ ETH: $3,450 • ◈ SOL: $145 • 🪙 PEPE: $0.000009 • 💎 SUI: $1.95 • 📈 LINK: $18.20 • 🟢 FET: $2.45
     </div>
 </div>
 
@@ -60,30 +53,29 @@
 
 <div class="container">
     <main>
-        <div class="scanner-status">
-            <div><span class="pulse"></span> <span id="scan-text">Scanning 5240 Assets...</span></div>
-            <div id="scan-count" style="color:var(--gold); font-weight:bold;">Analyzed: 0</div>
+        <div class="deep-scanner">
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                <span id="scan-status">Scanning Assets...</span>
+                <span style="color:var(--gold)" id="scan-percent">0/5240</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="p-bar"></div></div>
         </div>
 
         <div class="card">
-            <h3 id="txt-whale-title" style="color:var(--gold)"><i class="fas fa-whale"></i> Whale Tracker (Last 10 Movements)</h3>
+            <h3 id="txt-whale-title" style="color:var(--gold)"><i class="fas fa-search-dollar"></i> High-Value Whale Tracker (Top 10)</h3>
             <div class="table-container">
                 <table>
-                    <thead>
-                        <tr><th id="th-label">Identity</th><th id="th-addr">Wallet</th><th id="th-bal">Amount</th><th id="th-net">Network</th></tr>
-                    </thead>
+                    <thead><tr><th id="th-1">Type</th><th id="th-2">Wallet</th><th id="th-3">Amount</th><th id="th-4">Network</th></tr></thead>
                     <tbody id="whale-body"></tbody>
                 </table>
             </div>
         </div>
 
         <div class="card">
-            <h3 id="txt-radar-title" style="color:var(--gold)"><i class="fas fa-radar"></i> SentinelX 5240 Assets Radar</h3>
+            <h3 id="txt-radar-title" style="color:var(--gold)"><i class="fas fa-microchip"></i> Real-time 5240 Assets Monitor</h3>
             <div class="table-container" style="max-height: 400px; overflow-y: auto;">
                 <table>
-                    <thead>
-                        <tr><th id="th-asset">Asset</th><th id="th-price">Price</th><th id="th-action">Signal</th><th id="th-amount">Volume</th></tr>
-                    </thead>
+                    <thead><tr><th id="th-5">Asset</th><th id="th-6">Price</th><th id="th-7">Signal</th><th id="th-8">Volume</th></tr></thead>
                     <tbody id="market-body"></tbody>
                 </table>
             </div>
@@ -100,27 +92,22 @@
     </aside>
 </div>
 
-<div id="walletModal">
-    <div class="modal-content">
-        <h3 id="m-title" style="color:var(--gold); text-align:center;">Whale Analysis</h3>
-        <p id="m-addr" style="font-size:10px; color:#666; text-align:center;"></p>
-        <hr border="0" style="border-top:1px solid #333; margin:15px 0;">
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; text-align:center;">
-            <div><small>Balance</small><br><strong id="m-bal" style="color:var(--up)"></strong></div>
-            <div><small>Win Rate</small><br><strong style="color:var(--up)">+92%</strong></div>
-        </div>
-        <button onclick="closeModal()" style="width:100%; margin-top:20px; padding:10px; background:var(--primary); color:white; border:none; border-radius:10px; cursor:pointer;">Close | إغلاق</button>
-    </div>
-</div>
-
 <footer style="background:#000; padding:30px; text-align:center; border-top:4px solid var(--gold);">
     <p>SENTINELX PRO | POWERED BY SAHRAWYCRYPTO | 2026</p>
-    <a href="https://t.me/saidahmed28" style="color:var(--gold); text-decoration:none;">Join Community: @saidahmed28</a>
+    <a href="https://t.me/saidahmed28" style="color:var(--gold); text-decoration:none;">@saidahmed28</a>
 </footer>
 
 <script>
     let currentLang = 'en';
-    let totalScanned = 0;
+    let scanIndex = 0;
+    const TOTAL_ASSETS = 5240;
+
+    // قاعدة بيانات موسعة لمحاكاة الـ 5000 عملة
+    const assetCategories = [
+        'BTC','ETH','SOL','BNB','SUI','PEPE','FET','NEAR','LINK','ARB','TIA','OP','SHIB','DOGE','RNDR','WIF','JUP','ORDI','STX',
+        'GRT','INJ','IMX','STX','KAS','SEI','BONK','LDO','DYDX','GMX','AAVE','MKR','UNI','SNX','CRV','PENDLE','ENS','AGIX','OCEAN',
+        'WLD','TRB','FIL','ICP','HBAR','VET','RUNE','EGLD','THETA','AXS','SAND','MANA','GALA','BEAM','ILV','PYTH','ZRO','STRK'
+    ];
 
     function toggleLang() {
         const html = document.getElementById('mainHtml');
@@ -134,61 +121,49 @@
 
     function updateTexts(lang) {
         const d = {
-            en: { whale: "Whale Tracker (Last 10 Movements)", radar: "SentinelX 5240 Assets Radar", reg: "OFFICIAL PARTNERS", thL: "Identity", thA: "Wallet", thB: "Amount", thN: "Network", scan: "Scanning 5240 Assets...", analyzed: "Analyzed: " },
-            ar: { whale: "تتبع الحيتان (أحدث 10 تحركات)", radar: "رادار SentinelX لـ 5240 عملة", reg: "الشركاء الرسميون", thL: "الهوية", thA: "المحفظة", thB: "القيمة", thN: "الشبكة", scan: "جاري فحص 5240 عملة...", analyzed: "تم فحص: " }
+            en: { w: "High-Value Whale Tracker (Top 10)", r: "Real-time 5240 Assets Monitor", reg: "OFFICIAL PARTNERS", s: "Scanning Assets..." },
+            ar: { w: "تتبع الحيتان عالية القيمة (أحدث 10)", r: "مراقب الـ 5240 عملة المباشر", reg: "الشركاء الرسميون", s: "جاري فحص العملات..." }
         };
-        document.getElementById('txt-whale-title').innerText = d[lang].whale;
-        document.getElementById('txt-radar-title').innerText = d[lang].radar;
+        document.getElementById('txt-whale-title').innerText = d[lang].w;
+        document.getElementById('txt-radar-title').innerText = d[lang].r;
         document.getElementById('txt-reg-title').innerText = d[lang].reg;
-        document.getElementById('th-label').innerText = d[lang].thL;
-        document.getElementById('th-addr').innerText = d[lang].thA;
-        document.getElementById('th-bal').innerText = d[lang].thB;
-        document.getElementById('th-net').innerText = d[lang].thN;
-        document.getElementById('scan-text').innerText = d[lang].scan;
-        window.analyzedText = d[lang].analyzed;
+        document.getElementById('scan-status').innerText = d[lang].s;
     }
 
-    window.analyzedText = "Analyzed: ";
-
     function startApp() {
-        setInterval(marketScanner, 1000); // تحديث سريع جداً لمحاكاة الـ 5000 عملة
+        setInterval(marketScanner, 800); 
         setInterval(whaleScanner, 4000);
+        setInterval(deepScanUpdate, 100); // تحديث عداد الـ 5240
+    }
+
+    function deepScanUpdate() {
+        scanIndex += Math.floor(Math.random() * 12) + 1;
+        if(scanIndex > TOTAL_ASSETS) scanIndex = 0;
+        
+        const percent = (scanIndex / TOTAL_ASSETS) * 100;
+        document.getElementById('p-bar').style.width = percent + "%";
+        document.getElementById('scan-percent').innerText = `${scanIndex}/${TOTAL_ASSETS}`;
     }
 
     function marketScanner() {
-        const list = ['BTC','ETH','SOL','PEPE','FET','SUI','NEAR','LINK','ARB','TIA','OP','DOGE','SHIB','RNDR','WIF','JUP','ORDI','STX'];
-        const asset = list[Math.floor(Math.random()*list.length)];
-        const price = (Math.random() * 65000).toFixed(2);
+        const asset = assetCategories[Math.floor(Math.random()*assetCategories.length)];
+        const price = (Math.random() * 50000).toFixed(2);
         const buy = Math.random() > 0.4;
         const tbody = document.getElementById('market-body');
         const row = tbody.insertRow(0);
-        row.innerHTML = `<td>${asset}</td><td>$${price}</td><td style="color:${buy?'var(--up)':'var(--down)'}">${buy?'BUY':'SELL'}</td><td>$${Math.floor(Math.random()*2000000)}</td>`;
+        row.innerHTML = `<td>${asset}</td><td>$${price}</td><td style="color:${buy?'var(--up)':'var(--down)'}">${buy?'BUY':'SELL'}</td><td>$${Math.floor(Math.random()*10000000)}</td>`;
         if(tbody.rows.length > 15) tbody.deleteRow(15);
-        
-        // تحديث العداد
-        totalScanned += Math.floor(Math.random() * 5) + 1;
-        if(totalScanned > 5240) totalScanned = 5240; // لا يتجاوز العدد الكلي
-        document.getElementById('scan-count').innerText = window.analyzedText + totalScanned;
     }
 
     function whaleScanner() {
-        const nets = ['Ethereum', 'Solana', 'BSC', 'Bitcoin'];
-        const tags = ['Whale', 'Exchange', 'Fund', 'Bot'];
+        const nets = ['Ethereum', 'Solana', 'Bitcoin', 'BSC'];
         const addr = "0x" + Math.random().toString(16).slice(2,10).toUpperCase() + "...";
-        const val = (Math.random() * 100 + 1).toFixed(2) + "M";
+        const val = (Math.random() * 200 + 1).toFixed(2) + "M";
         const tbody = document.getElementById('whale-body');
         const row = tbody.insertRow(0);
-        row.innerHTML = `<td>${tags[Math.floor(Math.random()*4)]}</td><td><span class="wallet-addr" onclick="openModal('${addr}','${val}')">${addr}</span></td><td style="color:var(--up)">$${val}</td><td>${nets[Math.floor(Math.random()*4)]}</td>`;
+        row.innerHTML = `<td>Whale</td><td><span style="color:#60a5fa; font-family:monospace;">${addr}</span></td><td style="color:var(--up)">$${val}</td><td>${nets[Math.floor(Math.random()*4)]}</td>`;
         if(tbody.rows.length > 10) tbody.deleteRow(10);
     }
-
-    function openModal(addr, bal) {
-        document.getElementById('m-addr').innerText = addr;
-        document.getElementById('m-bal').innerText = "$" + bal;
-        document.getElementById('walletModal').style.display = 'flex';
-    }
-
-    function closeModal() { document.getElementById('walletModal').style.display = 'none'; }
 </script>
 </body>
 </html>

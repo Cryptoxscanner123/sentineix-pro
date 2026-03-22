@@ -1,77 +1,96 @@
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr" id="mainHtml">
 <head>
     <meta charset="UTF-8">
-    <title>SAHRAWY CRYPTO | 5240 Assets & Whale Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENTINELX PRO | Advanced Whale Intelligence</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root { --primary: #1a73e8; --bg: #0b101b; --card: #161e2d; --gold: #f59e0b; --up: #10b981; --down: #ef4444; }
-        body { background: var(--bg); color: #f1f5f9; font-family: 'Roboto', 'Tajawal', sans-serif; margin: 0; padding-top: 100px; overflow-x: hidden; transition: 0.3s; }
+        body { background: var(--bg); color: #f1f5f9; font-family: 'Roboto', 'Tajawal', sans-serif; margin: 0; padding-top: 110px; overflow-x: hidden; }
         
-        /* شريط الأخبار العلوي */
-        .breaking-news { background: #991b1b; color: white; height: 30px; line-height: 30px; position: fixed; top: 0; width: 100%; z-index: 10002; font-size: 12px; font-weight: bold; }
-        .price-ticker { background: #000; color: #fff; height: 40px; line-height: 40px; overflow: hidden; position: fixed; top: 30px; width: 100%; z-index: 10001; border-bottom: 1px solid #333; }
-        .ticker-track { display: inline-block; white-space: nowrap; animation: scrollTicker 50s linear infinite; }
+        .breaking-news { background: #991b1b; color: white; height: 35px; line-height: 35px; position: fixed; top: 0; width: 100%; z-index: 10002; font-size: 13px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .price-ticker { background: #000; color: #fff; height: 45px; line-height: 45px; overflow: hidden; position: fixed; top: 35px; width: 100%; z-index: 10001; border-bottom: 1px solid #333; }
+        .ticker-track { display: inline-block; white-space: nowrap; animation: scrollTicker 60s linear infinite; }
         
-        /* زر تبديل اللغة */
-        .lang-switch { position: fixed; bottom: 20px; left: 20px; z-index: 10005; background: var(--gold); color: #000; border: none; padding: 10px 20px; border-radius: 30px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .lang-switch { position: fixed; bottom: 30px; left: 30px; z-index: 10005; background: var(--gold); color: #000; border: none; padding: 12px 25px; border-radius: 50px; font-weight: 900; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
 
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 1fr 320px; gap: 20px; }
-        @media (max-width: 1024px) { .container { grid-template-columns: 1fr; } }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 1fr 350px; gap: 25px; }
+        @media (max-width: 1100px) { .container { grid-template-columns: 1fr; } }
 
-        .card { background: var(--card); border-radius: 15px; padding: 15px; border: 1px solid #2d3748; margin-bottom: 20px; }
-        .table-container { border: 1px solid #2d3748; border-radius: 10px; background: #0f172a; overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.85rem; }
-        th { background: #1e293b; padding: 12px; color: var(--gold); }
-        td { padding: 12px; border-bottom: 1px solid #2d3748; font-weight: bold; }
+        .card { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid #2d3748; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .table-container { border: 1px solid #2d3748; border-radius: 12px; background: #0f172a; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.9rem; }
+        th { background: #1e293b; padding: 15px; color: var(--gold); border-bottom: 2px solid #2d3748; }
+        td { padding: 15px; border-bottom: 1px solid #2d3748; font-weight: bold; }
 
-        /* الإشعارات */
-        #notification-area { position: fixed; top: 80px; right: 20px; z-index: 99999; width: 300px; }
-        .site-notification { background: #1e293b; color: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; border-right: 5px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.5); animation: slideNotify 0.5s ease-out; }
-        
-        @keyframes slideNotify { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes scrollTicker { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        /* نافذة تحليل المحفظة (Modal) */
+        #walletModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 999999; }
+        .modal-content { background: #111827; width: 90%; max-width: 500px; border-radius: 25px; padding: 30px; border: 1px solid var(--gold); position: relative; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .stat-box { background: #1f2937; padding: 15px; border-radius: 15px; text-align: center; }
+        .tx-list { background: #0f172a; padding: 15px; border-radius: 12px; font-size: 12px; }
+        .tx-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1e293b; }
 
-        .wallet-addr { font-family: monospace; color: #60a5fa; cursor: pointer; background: #1a202c; padding: 3px 8px; border-radius: 5px; }
-        .aff-link { display: block; padding: 12px; text-decoration: none; border-radius: 8px; margin-bottom: 10px; font-weight: 900; text-align: center; color: white; transition: 0.3s; }
-        .aff-link:hover { transform: scale(1.03); filter: brightness(1.1); }
+        .wallet-addr { color: #60a5fa; cursor: pointer; background: #1a202c; padding: 5px 10px; border-radius: 8px; font-family: monospace; }
+        .aff-link { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; text-decoration: none; border-radius: 12px; margin-bottom: 15px; font-weight: 900; color: white; transition: 0.4s; }
         .bn { background: #F3BA2F; color: #000; } .kc { background: #24ae8f; } .mx { background: #00a7e1; }
+
+        #notification-area { position: fixed; top: 100px; right: 25px; z-index: 99999; width: 300px; }
+        .site-notification { background: #1e293b; color: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; border-left: 5px solid var(--gold); animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from { transform: translateX(120%); } to { transform: translateX(0); } }
+        @keyframes scrollTicker { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
     </style>
 </head>
 <body onload="startApp()">
 
 <div class="breaking-news">
     <div class="ticker-track">
-        <span style="margin:0 50px;">🔴 BREAKING: Bitcoin ETF Inflow hits $2B | تدفقات صناديق البيتكوين تصل لـ 2 مليار دولار</span>
-        <span style="margin:0 50px;">🔥 ALERT: Whale moved 5000 BTC to Binance | حوت يحرك 5000 بيتكوين لمنصة بايننس</span>
+        <span style="margin:0 60px;">🚀 SENTINELX PRO: Monitoring 5240 Assets in Real-time | مراقبة 5240 عملة بالوقت الفعلي</span>
+        <span style="margin:0 60px;">⚡ ALERT: Smart Money Flow detected on Solana Network | رصد تدفق أموال ذكية على شبكة سولانا</span>
     </div>
 </div>
 
 <div class="price-ticker">
     <div class="ticker-track"> 
-        ₿ BTC: $64,210 • Ξ ETH: $3,450 • ◈ SOL: $145 • 🪙 PEPE: $0.000009 • 📈 LINK: $18.20 • 💎 SUI: $1.95
+        ₿ BTC: $64,210 • Ξ ETH: $3,450 • ◈ SOL: $145 • 🪙 PEPE: $0.000009 • 💎 SUI: $1.95 • 📈 LINK: $18.20 • 🟢 FET: $2.45
     </div>
 </div>
 
 <button class="lang-switch" onclick="toggleLang()" id="langBtn">العربية</button>
+
+<div id="walletModal">
+    <div class="modal-content">
+        <h2 id="modalTitle" style="color:var(--gold); margin:0; text-align:center;">Wallet Intelligence</h2>
+        <p id="modalAddr" style="font-size:11px; color:#64748b; text-align:center; margin-top:5px;"></p>
+        
+        <div class="stat-grid">
+            <div class="stat-box"><small id="lbl-bal">Balance</small><br><strong id="m-bal" style="color:var(--up)"></strong></div>
+            <div class="stat-box"><small id="lbl-pnl">PnL (30d)</small><br><strong id="m-pnl" style="color:var(--up)"></strong></div>
+            <div class="stat-box"><small id="lbl-score">Trust Score</small><br><strong id="m-score" style="color:var(--gold)"></strong></div>
+            <div class="stat-box"><small id="lbl-status">Status</small><br><strong style="color:var(--up)">Active</strong></div>
+        </div>
+
+        <div class="tx-list">
+            <h4 style="margin:0 0 10px 0; color:var(--gold)" id="lbl-recent">Recent Activity</h4>
+            <div id="m-txs"></div>
+        </div>
+        
+        <button onclick="closeModal()" style="width:100%; margin-top:20px; padding:12px; background:var(--primary); color:white; border:none; border-radius:12px; cursor:pointer; font-weight:bold;">Close | إغلاق</button>
+    </div>
+</div>
 
 <div id="notification-area"></div>
 
 <div class="container">
     <main>
         <div class="card">
-            <h3 id="txt-whale-title" style="color:var(--gold)"><i class="fas fa-wallet"></i> Live Whale Tracker (Last 10)</h3>
+            <h3 id="txt-whale-title" style="color:var(--gold)"><i class="fas fa-search-dollar"></i> Whale Monitor (Last 10)</h3>
             <div class="table-container">
                 <table>
                     <thead>
-                        <tr>
-                            <th id="th-label">Label</th>
-                            <th id="th-addr">Address</th>
-                            <th id="th-bal">Balance</th>
-                            <th id="th-net">Network</th>
-                        </tr>
+                        <tr><th id="th-label">Identity</th><th id="th-addr">Address</th><th id="th-bal">Value</th><th id="th-net">Network</th></tr>
                     </thead>
                     <tbody id="whale-body"></tbody>
                 </table>
@@ -79,16 +98,11 @@
         </div>
 
         <div class="card">
-            <h3 id="txt-radar-title" style="color:var(--gold)"><i class="fas fa-satellite-dish"></i> 5240 Assets Market Radar</h3>
+            <h3 id="txt-radar-title" style="color:var(--gold)"><i class="fas fa-broadcast-tower"></i> 5240 Assets Market Radar</h3>
             <div class="table-container" style="max-height: 400px; overflow-y: auto;">
                 <table>
                     <thead>
-                        <tr>
-                            <th id="th-asset">Asset</th>
-                            <th id="th-price">Price</th>
-                            <th id="th-action">Action</th>
-                            <th id="th-amount">Amount</th>
-                        </tr>
+                        <tr><th id="th-asset">Asset</th><th id="th-price">Price</th><th id="th-action">Signal</th><th id="th-amount">Volume</th></tr>
                     </thead>
                     <tbody id="market-body"></tbody>
                 </table>
@@ -98,28 +112,17 @@
 
     <aside>
         <div class="card">
-            <h4 id="txt-reg-title" style="text-align:center;">Register Now</h4>
-            
-            <a href="Https://www.binance.com/referral/earn-together/refer2earn-usdc/claim?hl=ar&ref=GRO_28502_3ZVJE&utm_source=default" target="_blank" class="aff-link bn">
-                <i class="fas fa-coins"></i> BINANCE VIP
-            </a>
-            
-            <a href="https://www.kucoin.com/ucenter/signup?rcode=QBSKG21V&utm_source=app_g_Share" target="_blank" class="aff-link kc">
-                <i class="fas fa-chart-line"></i> KUCOIN PRO
-            </a>
-            
-            <a href="https://promote.mexc.com/r/3SZVmiNqLt" target="_blank" class="aff-link mx">
-                <i class="fas fa-bolt"></i> MEXC GLOBAL
-            </a>
-            
-            <div style="margin-top:20px; padding:15px; border:1px dashed #444; border-radius:10px; text-align:center; font-size:11px; color:#666;">Google AdSense Space</div>
+            <h4 id="txt-reg-title" style="text-align:center;">VIP ACCESS</h4>
+            <a href="Https://www.binance.com/referral/earn-together/refer2earn-usdc/claim?hl=ar&ref=GRO_28502_3ZVJE&utm_source=default" target="_blank" class="aff-link bn">BINANCE VIP</a>
+            <a href="https://www.kucoin.com/ucenter/signup?rcode=QBSKG21V&utm_source=app_g_Share" target="_blank" class="aff-link kc">KUCOIN PRO</a>
+            <a href="https://promote.mexc.com/r/3SZVmiNqLt" target="_blank" class="aff-link mx">MEXC GLOBAL</a>
         </div>
     </aside>
 </div>
 
-<footer style="background:#000; padding:25px; text-align:center; border-top:3px solid var(--gold);">
-    <p>SahrawyCrypto PRO | Global Digital Hub | 2026</p>
-    <a href="https://t.me/saidahmed28" style="color:var(--gold); text-decoration:none;">Telegram: @saidahmed28</a>
+<footer style="background:#000; padding:30px; text-align:center; border-top:4px solid var(--gold);">
+    <p style="font-weight:900;">SENTINELX PRO | DATA POWERED BY SAHRAWYCRYPTO</p>
+    <a href="https://t.me/saidahmed28" style="color:var(--gold); text-decoration:none;">Contact Support: @saidahmed28</a>
 </footer>
 
 <script>
@@ -129,76 +132,81 @@
         const html = document.getElementById('mainHtml');
         const btn = document.getElementById('langBtn');
         if (currentLang === 'en') {
-            html.dir = 'rtl'; html.lang = 'ar'; currentLang = 'ar';
-            btn.innerText = 'English'; updateTexts('ar');
+            html.dir = 'rtl'; currentLang = 'ar'; btn.innerText = 'Switch to English'; updateTexts('ar');
         } else {
-            html.dir = 'ltr'; html.lang = 'en'; currentLang = 'en';
-            btn.innerText = 'العربية'; updateTexts('en');
+            html.dir = 'ltr'; currentLang = 'en'; btn.innerText = 'تبديل للعربية'; updateTexts('en');
         }
     }
 
     function updateTexts(lang) {
-        const dict = {
-            en: {
-                whale: "Live Whale Tracker (Last 10)", radar: "5240 Assets Market Radar", reg: "Register Now",
-                thLabel: "Label", thAddr: "Address", thBal: "Balance", thNet: "Network",
-                thAsset: "Asset", thPrice: "Price", thAction: "Action", thAmt: "Amount"
-            },
-            ar: {
-                whale: "تتبع الحيتان المباشر (أحدث 10)", radar: "رادار السوق لـ 5240 عملة", reg: "سجل الآن",
-                thLabel: "التسمية", thAddr: "العنوان", thBal: "الرصيد", thNet: "الشبكة",
-                thAsset: "العملة", thPrice: "السعر", thAction: "النوع", thAmt: "المبلغ"
-            }
+        const d = {
+            en: { whale: "Whale Monitor (Last 10)", radar: "5240 Assets Market Radar", reg: "VIP ACCESS", thL: "Identity", thA: "Address", thV: "Value", thN: "Network", lBal: "Balance", lPnl: "PnL (30d)", lScore: "Trust Score", lRec: "Recent Activity" },
+            ar: { whale: "مراقب الحيتان (أحدث 10)", radar: "رادار السوق (5240 عملة)", reg: "وصول كبار الشخصيات", thL: "الهوية", thA: "العنوان", thV: "القيمة", thN: "الشبكة", lBal: "الرصيد", lPnl: "الأرباح", lScore: "درجة الثقة", lRec: "العمليات الأخيرة" }
         };
-        document.getElementById('txt-whale-title').innerHTML = `<i class="fas fa-wallet"></i> ` + dict[lang].whale;
-        document.getElementById('txt-radar-title').innerHTML = `<i class="fas fa-satellite-dish"></i> ` + dict[lang].radar;
-        document.getElementById('txt-reg-title').innerText = dict[lang].reg;
-        document.getElementById('th-label').innerText = dict[lang].thLabel;
-        document.getElementById('th-addr').innerText = dict[lang].thAddr;
-        document.getElementById('th-bal').innerText = dict[lang].thBal;
-        document.getElementById('th-net').innerText = dict[lang].thNet;
-        document.getElementById('th-asset').innerText = dict[lang].thAsset;
-        document.getElementById('th-price').innerText = dict[lang].thPrice;
-        document.getElementById('th-action').innerText = dict[lang].thAction;
-        document.getElementById('th-amount').innerText = dict[lang].thAmt;
+        document.getElementById('txt-whale-title').innerText = d[lang].whale;
+        document.getElementById('txt-radar-title').innerText = d[lang].radar;
+        document.getElementById('txt-reg-title').innerText = d[lang].reg;
+        document.getElementById('th-label').innerText = d[lang].thL;
+        document.getElementById('th-addr').innerText = d[lang].thA;
+        document.getElementById('th-bal').innerText = d[lang].thV;
+        document.getElementById('th-net').innerText = d[lang].thN;
+        document.getElementById('lbl-bal').innerText = d[lang].lBal;
+        document.getElementById('lbl-pnl').innerText = d[lang].lPnl;
+        document.getElementById('lbl-score').innerText = d[lang].lScore;
+        document.getElementById('lbl-recent').innerText = d[lang].lRec;
     }
 
     function startApp() {
-        setInterval(marketScanner, 1500);
-        setInterval(whaleScanner, 4000);
+        setInterval(marketScanner, 1300);
+        setInterval(whaleScanner, 4500);
     }
 
-    function showNotification(msgEn, msgAr) {
-        const area = document.getElementById('notification-area');
-        const div = document.createElement('div');
-        div.className = 'site-notification';
-        div.innerHTML = `<strong>${currentLang === 'en' ? 'Whale Alert!' : 'تنبيه حوت!'}</strong><br>${currentLang === 'en' ? msgEn : msgAr}`;
-        area.appendChild(div);
-        setTimeout(() => div.remove(), 5000);
+    function openModal(addr, bal) {
+        document.getElementById('modalAddr').innerText = addr;
+        document.getElementById('m-bal').innerText = "$" + bal;
+        document.getElementById('m-pnl').innerText = "+" + (Math.random() * 40).toFixed(2) + "%";
+        document.getElementById('m-score').innerText = Math.floor(Math.random() * 10 + 85) + "/100";
+        
+        const txs = [
+            {a: "Buy", v: "150,000 USDT", t: "2m ago"},
+            {a: "Swap", v: "ETH to PEPE", t: "15m ago"},
+            {a: "Transfer", v: "Out to Binance", t: "1h ago"}
+        ];
+        let html = "";
+        txs.forEach(x => { html += `<div class="tx-item"><span>${x.a}</span><span>${x.v}</span><span style="color:#64748b">${x.t}</span></div>`; });
+        document.getElementById('m-txs').innerHTML = html;
+        document.getElementById('walletModal').style.display = 'flex';
     }
+
+    function closeModal() { document.getElementById('walletModal').style.display = 'none'; }
 
     function whaleScanner() {
-        const networks = ['Ethereum', 'BSC', 'Solana', 'Bitcoin'];
-        const addr = "0x" + Math.random().toString(16).slice(2,8) + "...";
-        const bal = (Math.random() * 100 + 5).toFixed(2) + "M";
+        const nets = ['Ethereum', 'Solana', 'BSC', 'Bitcoin'];
+        const tags = ['Institutional', 'Smart Money', 'Market Maker', 'Alpha Whale'];
+        const addr = "0x" + Math.random().toString(16).slice(2,10).toUpperCase() + "...";
+        const val = (Math.random() * 120 + 5).toFixed(2) + "M";
         const tbody = document.getElementById('whale-body');
         const row = tbody.insertRow(0);
-        row.innerHTML = `<td>Institutional</td><td><span class="wallet-addr">${addr}</span></td><td style="color:var(--up)">$${bal}</td><td>${networks[Math.floor(Math.random()*4)]}</td>`;
+        row.innerHTML = `<td>${tags[Math.floor(Math.random()*4)]}</td><td><span class="wallet-addr" onclick="openModal('${addr}', '${val}')">${addr}</span></td><td style="color:var(--up)">$${val}</td><td>${nets[Math.floor(Math.random()*4)]}</td>`;
         if(tbody.rows.length > 10) tbody.deleteRow(10);
-        if(parseFloat(bal) > 60) showNotification(`New Whale detected with $${bal}`, `تم رصد حوت جديد برصيد $${bal}`);
+        if(parseFloat(val) > 70) {
+            const area = document.getElementById('notification-area');
+            const n = document.createElement('div'); n.className = 'site-notification';
+            n.innerText = currentLang === 'en' ? `Whale Alert: $${val} detected!` : `تنبيه حوت: رصد $${val}!`;
+            area.appendChild(n); setTimeout(() => n.remove(), 4000);
+        }
     }
 
     function marketScanner() {
-        const coins = ['BTC','ETH','SOL','BNB','SUI','PEPE'];
-        const coin = coins[Math.floor(Math.random()*6)];
-        const price = (Math.random() * 65000).toFixed(2);
-        const buy = Math.random() > 0.5;
+        const assets = ['BTC','ETH','SOL','SUI','PEPE','FET','NEAR','LINK'];
+        const asset = assets[Math.floor(Math.random()*8)];
+        const price = (Math.random() * 60000).toLocaleString();
+        const buy = Math.random() > 0.45;
         const tbody = document.getElementById('market-body');
         const row = tbody.insertRow(0);
-        row.innerHTML = `<td>${coin}</td><td>$${price}</td><td style="color:${buy?'var(--up)':'var(--down)'}">${buy?'BUY':'SELL'}</td><td>$${(Math.random()*1000000).toFixed(0)}</td>`;
+        row.innerHTML = `<td>${asset}</td><td>$${price}</td><td style="color:${buy?'var(--up)':'var(--down)'}">${buy?'BUY':'SELL'}</td><td>$${Math.floor(Math.random()*5000000)}</td>`;
         if(tbody.rows.length > 15) tbody.deleteRow(15);
     }
 </script>
-
 </body>
 </html>

@@ -10,13 +10,12 @@
         :root { --primary: #1a73e8; --bg: #0b101b; --card: #161e2d; --gold: #f59e0b; --up: #10b981; --down: #ef4444; }
         body { background: var(--bg); color: #f1f5f9; font-family: 'Roboto', 'Tajawal', sans-serif; margin: 0; padding-top: 100px; overflow-x: hidden; transition: 0.3s; }
         
-        /* 1. شريط الأخبار العلوي */
+        /* شريط الأخبار العلوي */
         .breaking-news { background: #991b1b; color: white; height: 30px; line-height: 30px; position: fixed; top: 0; width: 100%; z-index: 10002; font-size: 12px; font-weight: bold; }
         .price-ticker { background: #000; color: #fff; height: 40px; line-height: 40px; overflow: hidden; position: fixed; top: 30px; width: 100%; z-index: 10001; border-bottom: 1px solid #333; }
-        
         .ticker-track { display: inline-block; white-space: nowrap; animation: scrollTicker 50s linear infinite; }
         
-        /* 2. تبديل اللغة */
+        /* زر تبديل اللغة */
         .lang-switch { position: fixed; bottom: 20px; left: 20px; z-index: 10005; background: var(--gold); color: #000; border: none; padding: 10px 20px; border-radius: 30px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
 
         .container { max-width: 1400px; margin: 0 auto; padding: 20px; display: grid; grid-template-columns: 1fr 320px; gap: 20px; }
@@ -28,15 +27,16 @@
         th { background: #1e293b; padding: 12px; color: var(--gold); }
         td { padding: 12px; border-bottom: 1px solid #2d3748; font-weight: bold; }
 
-        /* 3. الإشعارات */
+        /* الإشعارات */
         #notification-area { position: fixed; top: 80px; right: 20px; z-index: 99999; width: 300px; }
-        .site-notification { background: #1e293b; color: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; border-right: 5px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.5); animation: slideNotify 0.5s ease-out; position: relative; }
+        .site-notification { background: #1e293b; color: white; padding: 15px; border-radius: 12px; margin-bottom: 10px; border-right: 5px solid var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.5); animation: slideNotify 0.5s ease-out; }
         
         @keyframes slideNotify { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes scrollTicker { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
         .wallet-addr { font-family: monospace; color: #60a5fa; cursor: pointer; background: #1a202c; padding: 3px 8px; border-radius: 5px; }
-        .aff-link { display: block; padding: 12px; text-decoration: none; border-radius: 8px; margin-bottom: 10px; font-weight: 900; text-align: center; color: white; }
+        .aff-link { display: block; padding: 12px; text-decoration: none; border-radius: 8px; margin-bottom: 10px; font-weight: 900; text-align: center; color: white; transition: 0.3s; }
+        .aff-link:hover { transform: scale(1.03); filter: brightness(1.1); }
         .bn { background: #F3BA2F; color: #000; } .kc { background: #24ae8f; } .mx { background: #00a7e1; }
     </style>
 </head>
@@ -45,7 +45,7 @@
 <div class="breaking-news">
     <div class="ticker-track">
         <span style="margin:0 50px;">🔴 BREAKING: Bitcoin ETF Inflow hits $2B | تدفقات صناديق البيتكوين تصل لـ 2 مليار دولار</span>
-        <span style="margin:0 50px;">🔥 ALERT: Whale moved 5000 BTC from Unknown Wallet to Binance | حوت يحرك 5000 بيتكوين</span>
+        <span style="margin:0 50px;">🔥 ALERT: Whale moved 5000 BTC to Binance | حوت يحرك 5000 بيتكوين لمنصة بايننس</span>
     </div>
 </div>
 
@@ -99,15 +99,26 @@
     <aside>
         <div class="card">
             <h4 id="txt-reg-title" style="text-align:center;">Register Now</h4>
-            <a href="Https://www.binance.com/referral/earn-together/refer2earn-usdc/claim?hl=ar&ref=GRO_28502_3ZVJE&utm_source=default" target="_blank" class="aff-link bn">BINANCE VIP</a>
-            <a href="https://www.kucoin.com/ucenter/signup?rcode=QBSKG21V&utm_source=app_g_Share" target="_blank" class="aff-link kc">KUCOIN PRO</a>
-            <a href="https://promote.mexc.com/r/3SZVmiNqLt" target="_blank" class="aff-link mx">MEXC GLOBAL</a>
+            
+            <a href="Https://www.binance.com/referral/earn-together/refer2earn-usdc/claim?hl=ar&ref=GRO_28502_3ZVJE&utm_source=default" target="_blank" class="aff-link bn">
+                <i class="fas fa-coins"></i> BINANCE VIP
+            </a>
+            
+            <a href="https://www.kucoin.com/ucenter/signup?rcode=QBSKG21V&utm_source=app_g_Share" target="_blank" class="aff-link kc">
+                <i class="fas fa-chart-line"></i> KUCOIN PRO
+            </a>
+            
+            <a href="https://promote.mexc.com/r/3SZVmiNqLt" target="_blank" class="aff-link mx">
+                <i class="fas fa-bolt"></i> MEXC GLOBAL
+            </a>
+            
+            <div style="margin-top:20px; padding:15px; border:1px dashed #444; border-radius:10px; text-align:center; font-size:11px; color:#666;">Google AdSense Space</div>
         </div>
     </aside>
 </div>
 
 <footer style="background:#000; padding:25px; text-align:center; border-top:3px solid var(--gold);">
-    <p>SahrawyCrypto PRO | Global Hub | 2026</p>
+    <p>SahrawyCrypto PRO | Global Digital Hub | 2026</p>
     <a href="https://t.me/saidahmed28" style="color:var(--gold); text-decoration:none;">Telegram: @saidahmed28</a>
 </footer>
 
@@ -117,35 +128,24 @@
     function toggleLang() {
         const html = document.getElementById('mainHtml');
         const btn = document.getElementById('langBtn');
-        
         if (currentLang === 'en') {
-            html.dir = 'rtl';
-            html.lang = 'ar';
-            currentLang = 'ar';
-            btn.innerText = 'English';
-            updateTexts('ar');
+            html.dir = 'rtl'; html.lang = 'ar'; currentLang = 'ar';
+            btn.innerText = 'English'; updateTexts('ar');
         } else {
-            html.dir = 'ltr';
-            html.lang = 'en';
-            currentLang = 'en';
-            btn.innerText = 'العربية';
-            updateTexts('en');
+            html.dir = 'ltr'; html.lang = 'en'; currentLang = 'en';
+            btn.innerText = 'العربية'; updateTexts('en');
         }
     }
 
     function updateTexts(lang) {
         const dict = {
             en: {
-                whale: "Live Whale Tracker (Last 10)",
-                radar: "5240 Assets Market Radar",
-                reg: "Register Now",
+                whale: "Live Whale Tracker (Last 10)", radar: "5240 Assets Market Radar", reg: "Register Now",
                 thLabel: "Label", thAddr: "Address", thBal: "Balance", thNet: "Network",
                 thAsset: "Asset", thPrice: "Price", thAction: "Action", thAmt: "Amount"
             },
             ar: {
-                whale: "تتبع الحيتان المباشر (أحدث 10)",
-                radar: "رادار السوق لـ 5240 عملة",
-                reg: "سجل الآن",
+                whale: "تتبع الحيتان المباشر (أحدث 10)", radar: "رادار السوق لـ 5240 عملة", reg: "سجل الآن",
                 thLabel: "التسمية", thAddr: "العنوان", thBal: "الرصيد", thNet: "الشبكة",
                 thAsset: "العملة", thPrice: "السعر", thAction: "النوع", thAmt: "المبلغ"
             }
@@ -185,11 +185,7 @@
         const row = tbody.insertRow(0);
         row.innerHTML = `<td>Institutional</td><td><span class="wallet-addr">${addr}</span></td><td style="color:var(--up)">$${bal}</td><td>${networks[Math.floor(Math.random()*4)]}</td>`;
         if(tbody.rows.length > 10) tbody.deleteRow(10);
-        
-        // إشعار عشوائي عند دخول محفظة كبيرة
-        if(parseFloat(bal) > 50) {
-            showNotification(`New Whale detected with $${bal}`, `تم رصد حوت جديد برصيد $${bal}`);
-        }
+        if(parseFloat(bal) > 60) showNotification(`New Whale detected with $${bal}`, `تم رصد حوت جديد برصيد $${bal}`);
     }
 
     function marketScanner() {

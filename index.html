@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentineix Pro | التحليل الذكي للعملات</title>
+    
+    <title>Sentineix Pro | التحليل الذكي للعملات والشارت المباشر</title>
+
+    <meta name="google-site-verification" content="KrXAGt9Uxwbfc3D-C6-QZoouOTNRY5_RI" />
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2692252068381537" crossorigin="anonymous"></script>
     <meta name="google-adsense-account" content="ca-pub-2692252068381537">
 
     <style>
-
-
 
         :root { --primary: #1a73e8; --bg: #0b101b; --card: #161e2d; --gold: #f59e0b; --up: #10b981; --down: #ef4444; }
         body { background: var(--bg); color: #f1f5f9; font-family: 'Roboto', 'Tajawal', sans-serif; margin: 0; padding-top: 155px; overflow-x: hidden; }
@@ -56,13 +57,12 @@
 
         #walletModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); display: none; align-items: center; justify-content: center; z-index: 9999999; backdrop-filter: blur(10px); }
         .modal-content { background: #0f172a; width: 95%; max-width: 620px; border-radius: 30px; padding: 35px; border: 2px solid var(--gold); }
-    </style>
 </head>
+
 <body onload="startApp()">
 
-<div id="notification-container"></div>
-
-<div class="ad-space ad-top">
+        
+   v class="ad-space ad-top">
     <span>ADSENSE LEADERBOARD 728x90 (أضف كود إعلانك هنا)</span>
     </div>
 
@@ -86,6 +86,31 @@
 
 <div class="container">
     <main>
+        <div class="ai-analysis-box" style="direction: rtl; text-align: right; background: var(--card); border: 1px solid var(--primary); border-radius: 15px; padding: 20px; margin-bottom: 20px;">
+    <h3 style="color: var(--gold); text-align: center; margin-bottom: 20px;">تحليل العملات المباشر 📊</h3>
+    
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <input type="text" id="coinSearch" placeholder="اكتب رمز العملة (BTC, ETH...)" 
+               style="flex-grow: 1; padding: 12px; border-radius: 8px; background: #0f172a; color: white; border: 1px solid var(--primary); outline: none;">
+        <button onclick="startAIAnalysis()" id="aiBtn" style="padding: 12px 20px; border-radius: 8px; background: var(--primary); color: white; border: none; cursor: pointer; font-weight: bold;">تحليل الآن</button>
+    </div>
+
+    <div id="analysisResult" style="display:none;">
+        <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+            <div id="aiTable" style="flex: 1; min-width: 250px; background: #1e293b; border-radius: 10px; padding: 15px;">
+                <h5 id="coinTitle" style="color: var(--gold); margin:0 0 10px 0;">-</h5>
+                <p>السعر: <strong id="resPrice">-</strong></p>
+                <p>التغير: <span id="resChange">-</span></p>
+                <hr style="border: 0.5px solid #334155;">
+                <p id="resAdvice" style="font-size: 13px; line-height: 1.5;">-</p>
+            </div>
+            <div id="tv_chart_container" style="flex: 2; min-width: 300px; height: 350px; border-radius: 10px; overflow: hidden;">
+                <div id="tv_chart_widget" style="height: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom:10px;">
                 <span id="scan-status" style="font-weight: 900; font-size:13px; color:var(--gold)"><i class="fas fa-microchip fa-spin"></i> AI ENGINE: SCANNING 5000 ASSETS...</span>

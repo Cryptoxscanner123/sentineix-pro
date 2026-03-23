@@ -341,6 +341,71 @@
         
     </div>
 </footer>
+<script src="https://s3.tradingview.com/tv.js"></script>
+
+<script>
+function startAIAnalysis() {
+    const coin = document.getElementById('coinSearch').value.toUpperCase() || 'BTC';
+    const resultBox = document.getElementById('analysisResult');
+    const btn = document.getElementById('aiBtn');
+    
+    // إظهار النتائج وتغيير حالة الزر
+    resultBox.style.display = 'block';
+    btn.innerText = "جاري الفحص...";
+    
+    // تحديث النص العلوي
+    document.getElementById('coinTitle').innerText = "تحليل رادار: " + coin;
+
+    // تشغيل الرسم البياني المباشر
+    new TradingView.widget({
+        "autosize": true,
+        "symbol": "BINANCE:" + coin + "USDT",
+        "interval": "H",
+        "timezone": "Africa/Algiers",
+        "theme": "dark",
+        "style": "1",
+        "locale": "ar",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "hide_side_toolbar": false,
+        "allow_symbol_change": true,
+        "container_id": "tv_chart_widget"
+    });
+    // محرك التحليل الحقيقي من Binance
+    fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${coin}USDT`)
+        .then(response => response.json())
+        .then(data => {
+            const price = parseFloat(data.lastPrice).toFixed(2);
+            const change = parseFloat(data.priceChangePercent).toFixed(2);
+            
+            // تحديث الأرقام في واجهة الموقع
+            document.getElementById('resPrice').innerText = `$${price}`;
+            document.getElementById('resChange').innerText = `${change}%`;
+            document.getElementById('resChange').style.color = change >= 0 ? '#10b981' : '#ef4444';
+
+            // منطق التحليل بناءً على حركة السعر الحقيقية
+            let advice = "";
+            if (change > 3) {
+                advice = `🔥 صعود قوي لعملة ${coin}. الزخم شرائي مرتفع حالياً.`;
+            } else if (change > 0) {
+                advice = `📈 اتجاه إيجابي طفيف لعملة ${coin}. السعر في منطقة استقرار.`;
+            } else if (change < -3) {
+                advice = `⚠️ هبوط ملحوظ لعملة ${coin}. يرجى الحذر من كسر مستويات الدعم.`;
+            } else {
+                advice = `📉 ضغط بيعي على عملة ${coin}. السعر يتحرك في نطاق عرضي.`;
+            }
+
+            document.getElementById('resAdvice').innerText = advice;
+            btn.innerText = "تحليل الآن";
+        })
+        .catch(err => {
+            document.getElementById('resAdvice').innerText = "خطأ: تأكد من رمز العملة (مثال: BTC)";
+            btn.innerText = "تحليل الآن";
+        });
+
+  
+}
+</script>
 
 </body>
 </html>
